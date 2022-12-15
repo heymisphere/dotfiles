@@ -1,0 +1,3 @@
+timeout 120 'swaylock --indicator --clock -i $(backman -p -r) --timestr "%I:%M %p" --datestr "%a, %d/%m/%y" & dm-tool switch-go-greeter'
+timeout 150 'hyprctl dispatch dpms off' resume 'hyprctl dispatch dpms on'
+timeout 400 'systemctl suspend & dm-tool switch-to-greeter'

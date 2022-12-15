@@ -1,0 +1,7 @@
+Threshold = 10
+DisplayMonitorSources = false
+EnableUpdates = true
+FilterInput = true
+FilterOutput = false
+LastUsedInput = "bluez_input.41_42_DB_A4_70_9D.0"
+LastUsedOutput = ""

@@ -1,0 +1,19 @@
+swipe:
+  3: 
+    left: 
+      command: 'swaymsg "workspace next"'
+    right: 
+      command: 'swaymsg "workspace prev"'
+    up: 
+      command: 'swaymsg "workspace next"'
+    down: 
+      command: 'swaymsg "workspace prev"'
+  4:
+    up:
+      command: 'rofi -show drun -show-icons'
+    down:
+      command: 'rofi -show drun -show-icons'
+    left:
+      command: "swaymsg workspace $(($(swaymsg -t get_workspaces | jq -r '.[] | select(.focused).name')+1))"
+    right:
+      command: "swaymsg workspace $(($(swaymsg -t get_workspaces | jq -r '.[] | select(.focused).name')-1))"

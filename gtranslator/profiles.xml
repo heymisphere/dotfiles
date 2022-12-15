@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<profiles>
+  <profile active="TRUE">
+    <profile_name>GNOME</profile_name>
+    <author_name>Hemish</author_name>
+    <author_email>hemish04082005@gmail.com</author_email>
+    <language_name>Hindi</language_name>
+    <language_code>hi</language_code>
+    <charset>UTF-8</charset>
+    <encoding>8bit</encoding>
+    <group_email>indlinux-hindi@lists.sourceforge.net https://indlinux.org/hindi</group_email>
+    <plural_forms>nplurals=2; plural=(n != 1)</plural_forms>
+  </profile>
+  <profile>
+    <profile_name>Personal</profile_name>
+    <auth_token></auth_token>
+    <author_name>Hemish</author_name>
+    <author_email>hemish04082005@gmail.com</author_email>
+    <language_name>Hindi</language_name>
+    <language_code>hi</language_code>
+    <charset>UTF-8</charset>
+    <encoding>8bit</encoding>
+    <group_email></group_email>
+    <plural_forms>nplurals=2; plural=(n != 1)</plural_forms>
+  </profile>
+</profiles>

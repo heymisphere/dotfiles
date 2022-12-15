@@ -1,0 +1,54 @@
+[mpris]
+command=mpris_block
+interval=3
+full_text=MPRIS
+color=#C9E3DB
+
+[net_speed]
+command=net_speed
+interval=1
+full_text = net_speed
+color=#C9E3DB
+
+[wifi]
+command=if [ $button ]; then iwgtk; else wifi_block; fi
+interval=10
+color=#FEC925
+full_text= Disconnected
+
+[cpu_usage]
+command=cpu_block
+interval=#C9E3DB
+interval=3
+full_text= CPU
+
+[battery]
+command=battery_block
+interval=30
+color=#C9E3DB
+full_text= BATTERY
+
+[DISK]
+command=filesystem_block
+interval=60
+color=#C9E3DB
+full_text= DISK
+
+[MEM]
+command=memusage_block
+interval=2
+color=#FEC925
+full_text= MEM
+
+[SOUND]
+full_text= 🔇:  0% 
+command=if [ $button ]; then pavucontrol; else sound_block; fi
+interval=2
+color=#00B4EB
+full_text= SOUND
+
+[TIME_DATE]
+full_text= Time:
+command=date +" %a, %d %b - %I:%M %p"
+interval=30
+color=#FEC925
