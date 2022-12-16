@@ -7,7 +7,7 @@
     // Choose the order of the modules
     "modules-left": ["wlr/workspaces"],
     "modules-center": [],
-    "modules-right": ["custom/mpris", "idle_inhibitor", "pulseaudio", "network", "cpu", "memory", "temperature", "backlight", "keyboard-state", "battery", "clock", "tray", "custom/swayncpanel"],
+    "modules-right": ["custom/mpris", "idle_inhibitor", "pulseaudio", "network", "memory", "backlight", "keyboard-state", "battery", "clock", "tray", "custom/swayncpanel"],
     // Modules configuration
     "wlr/workspaces": {
     	"on-click": "activate"

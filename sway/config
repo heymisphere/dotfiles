@@ -1,0 +1,362 @@
+# Wayland/sway specific ------------------
+# Some necessary Sway things which i copied
+exec systemctl --user import-environment DISPLAY WAYLAND_DISPLAY SWAYSOCK XDG_CURRENT_DESKTOP
+exec hash dbus-update-activation-environment 2>/dev/null && \
+     dbus-update-activation-environment --systemd DISPLAY WAYLAND_DISPLAY SWAYSOCK
+
+# For non-systemd distros
+#exec pipewire &
+#exec pipewire-pulse &
+#exec xdg-desktop-portal-wlr &
+
+# Border
+default_border pixel 5
+default_floating_border pixel 5
+
+# Enabling wayland on qt and firefox
+exec --no-startup-id export QT_QPA_PlATFORM=wayland
+exec --no-startup-id export MOZ_ENABLE_WAYLAND=1
+
+# Idle and screenoff
+exec --no-startup-id swayidle -C ~/.config/sway/idle
+
+# Idle inhibitor
+exec --no-startup-id sway-audio-idle-inhibit
+
+# Touchpad configuration on wayland/sway
+input type:touchpad {
+	tap enabled
+	natural_scroll enabled
+}
+
+# Cursor
+#seat seat0 xcursor_theme Adwaita 28
+
+# Setting modifier keys
+set $sup Mod4
+set $mod Mod1
+set $alt Mod1
+
+# Setting pango markup font
+font pango: FontAwesome 9
+
+# Use Mouse+$mod to drag floating windows to their wanted position
+floating_modifier $sup
+
+# Setting up X screen resolution
+exec --no-startup-id xrandr --mode 1360x768
+
+# Setting up background
+exec --no-startup-id backman --set &
+
+# Clipboard manager
+
+
+# Network keybind
+bindsym $sup+n exec iwgtk
+bindsym $mod+n exec iwgtk
+
+# keyring daemon startup
+#exec --no-startup-id gnome-keyring-daemon &
+exec keepassxc &
+
+# Generating chrome flags
+exec --no-startup-id chrome-flag-gen.py
+
+# Launching polkit-gnome for authentication stuff
+exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &
+
+# Killing ibus if running
+exec --no-startup-id pkill ibus*
+
+# Waiting for everything to work
+exec --no-startup-id sleep 1
+
+# Notify daemon swaync
+exec --no-startup-id swaync &
+
+# Touchpad gestures with ruby-fusuma
+exec --no-startup-id fusuma -c /home/cat/.config/fusuma/sway.yml 1>/dev/null 2>/dev/null
+
+# Terminal Keybind
+bindsym $sup+Return exec sakura
+bindsym $mod+Return exec sakura
+
+# Passmenu Keybind
+bindsym $sup+p exec passmenu
+bindsym $mod+p exec passmenu
+
+# IRC client keybind
+bindsym $sup+i exec gnome-terminal -e 'catgirl znc'
+bindsym $alt+i exec gnome-terminal -e 'catgirl znc'
+
+# Gomuks keybind
+bindsym $sup+c exec gnome-terminal -e 'gomuks'
+bindsym $alt+c exec gnome-terminal -e 'gomuks'
+
+# File manager keybind
+bindsym $sup+e exec nemo
+bindsym $mod+e exec nemo
+
+# Blueberry keybind
+bindsym $sup+b exec blueberry
+bindsym $mod+b exec blueberry
+
+# Geary mail keybind
+bindsym $sup+g exec geary
+bindsym $mod+g exec geary 
+
+# Browser keybind
+bindsym $sup+w exec google-chrome-stable
+bindsym $mod+w exec google-chrome-stable %U
+
+# Spotify keybind
+bindsym $sup+m exec gnome-terminal -e ncspot
+bindsym $mod+m exec gnome-terminal -e ncspot
+
+# System monitor/Task manager keybind
+bindsym Control+Shift+Escape exec gnome-system-monitor
+
+# Dmenu Keybind
+bindsym $mod+d exec dmenu-wl_run -fn 'Ubuntu:size=10'
+bindsym $sup+d exec dmenu-wl_run -fn 'Ubuntu:size=10'
+
+# Desktop entries launcher keybind
+bindsym $mod+a exec j4-dmenu-desktop --dmenu="dmenu-wl -i"
+bindsym $sup+a exec j4-dmenu-desktop --dmenu="dmenu-wl -i"
+
+# Screenshots
+bindsym Print exec grimshot --notify save screen
+bindsym Shift+Print exec grimshot --notify copy screen
+
+bindsym Control+Print exec grimshot --notify save area
+bindsym Control+Shift+Print exec grimshot --notify copy area
+
+bindsym $sup+Print exec grimshot --notify save window
+bindsym $alt+Print exec grimshot --notify save window
+bindsym $sup+Shift+Print exec grimshot --notify copy window
+bindsym $alt+Shift+Print exec grimshot --notify copy window
+
+# Lock screen keybind
+bindsym $mod+l exec swaylock --indicator --clock -i $(backman -p -r) --timestr "%I:%M %p" --datestr "%a, %d/%m/%y"
+bindsym $sup+l exec swaylock --indicator --clock -i $(backman -p -r) --timestr "%I:%M %p"
+
+# xkill keybind
+# bindsym $mod+x exec
+# bindsym $sup+x exec
+
+# Background changer keybind
+bindsym $mod+F7 exec --no-startup-id backman -s
+bindsym $sup+F7 exec --no-startup-id backman -s
+
+# Volume sink toggle keybind
+bindsym --locked Ctrl+grave exec sink_toggle t
+
+# Volume control
+bindsym --locked XF86AudioRaiseVolume exec pamixer --sink $(sink_toggle g) -i 5
+bindsym --locked XF86AudioLowerVolume exec pamixer --sink $(sink_toggle g) -d 5
+bindsym --locked XF86AudioMute exec pamixer --sink $(sink_toggle g) -t
+
+# Brightness control
+bindsym --locked XF86MonBrightnessUp exec brightnessctl -s s +5%
+bindsym --locked XF86MonBrightnessDown exec brightnessctl -s s 5%-
+
+# Search key mapped to app launcher
+bindsym XF86Search exec j4-dmenu-desktop --dmenu="dmenu-wl -i"
+
+# Music/Audio control
+bindsym --locked XF86AudioNext exec playerctl --ignore-player=chromium next
+bindsym --locked XF86AudioPrev exec playerctl --ignore-player=chromium previous
+bindsym --locked XF86AudioPlay exec playerctl --ignore-player=chromium play-pause
+bindsym --locked XF86AudioStop exec playerctl --ignore-player=chromium stop
+bindsym --locked Control+comma exec playerctl --ignore-player=chromium previous
+bindsym --locked Control+period exec playerctl --ignore-player=chromium play-pause
+bindsym --locked Control+slash exec playerctl --ignore-player=chromium next
+
+# Kill focused window
+bindsym $mod+x kill
+bindsym $sup+x kill
+bindsym $alt+F4 kill
+
+# Change focus
+bindsym $mod+Left focus left
+bindsym $mod+Down focus down
+bindsym $mod+Up focus up
+bindsym $mod+Right focus right
+
+bindsym $sup+Left focus left
+bindsym $sup+Down focus down
+bindsym $sup+Up focus up
+bindsym $sup+Right focus right
+
+# Move focused window
+bindsym $mod+Shift+Left move left
+bindsym $mod+Shift+Down move down
+bindsym $mod+Shift+Up move up
+bindsym $mod+Shift+Right move right
+
+bindsym $sup+Shift+Left move left
+bindsym $sup+Shift+Down move down
+bindsym $sup+Shift+Up move up
+bindsym $sup+Shift+Right move right
+
+# Split in horizontal orientation
+bindsym $mod+h split h
+bindsym $sup+h split h
+
+# Split in vertical orientation
+bindsym $mod+v split v
+bindsym $sup+v split v
+
+# Enter fullscreen mode for the focused container
+bindsym $mod+f fullscreen toggle
+bindsym $sup+f fullscreen toggle
+
+# Toggle between tiling and floating on focused window
+bindsym $mod+space floating toggle
+bindsym $sup+space floating toggle
+
+# Change focus between tiling/floating windows
+bindsym $mod+Shift+space focus mode_toggle
+bindsym $sup+Shift+space focus mode_toggle
+
+# Switch to workspace
+bindsym $mod+Control+Right workspace next
+bindsym $mod+Control+Left workspace prev
+bindsym $sup+Control+Right workspace next
+bindsym $sup+Control+Left workspace prev
+
+# Numbered workspaces
+bindsym $mod+period exec swaymsg workspace $(($(swaymsg -t get_workspaces | jq -r '.[] | select(.focused).name')+1))
+bindsym $sup+period exec swaymsg workspace $(($(swaymsg -t get_workspaces | jq -r '.[] | select(.focused).name')+1))
+bindsym $mod+comma exec swaymsg workspace $(($(swaymsg -t get_workspaces | jq -r '.[] | select(.focused).name')-1))
+bindsym $sup+comma exec swaymsg workspace $(($(swaymsg -t get_workspaces | jq -r '.[] | select(.focused).name')-1))
+
+# Switch to workspace numbers
+bindsym $mod+1 workspace 1
+bindsym $mod+2 workspace 2
+bindsym $mod+3 workspace 3
+bindsym $mod+4 workspace 4
+bindsym $mod+5 workspace 5
+bindsym $mod+6 workspace 6
+
+bindsym $sup+1 workspace 1
+bindsym $sup+2 workspace 2
+bindsym $sup+3 workspace 3
+bindsym $sup+4 workspace 4
+bindsym $sup+5 workspace 5
+bindsym $sup+6 workspace 6
+
+# Sticky windows
+bindsym $mod+s sticky toggle
+bindsym $sup+s sticky toggle
+
+# Move focused container to workspace
+bindsym $mod+Shift+1 move container to workspace 1
+bindsym $mod+Shift+2 move container to workspace 2
+bindsym $mod+Shift+3 move container to workspace 3
+bindsym $mod+Shift+4 move container to workspace 4
+bindsym $mod+Shift+5 move container to workspace 5
+bindsym $mod+Shift+6 move container to workspace 6
+
+bindsym $sup+Shift+1 move container to workspace 1
+bindsym $sup+Shift+2 move container to workspace 2
+bindsym $sup+Shift+3 move container to workspace 3
+bindsym $sup+Shift+4 move container to workspace 4
+bindsym $sup+Shift+5 move container to workspace 5
+bindsym $sup+Shift+6 move container to workspace 6
+
+# Restart/Reload sway in place without logging out
+bindsym $mod+Shift+r reload
+bindsym $sup+Shift+r reload
+
+# Exit the window manager to console/display manager
+bindsym $mod+q exec "swaynag -t warning -m 'Really, exit?' -b 'Yes' 'swaymsg exit'"
+bindsym $sup+q exec "swaynag -t warning -m 'Really, exit?' -b 'Yes' 'swaymsg exit'"
+
+# Resize window mode (you can also use the mouse for that)
+mode "resize" {
+        bindsym Left resize grow left 5 px or 5 ppt
+        bindsym Down resize grow down 5 px or 5 ppt
+        bindsym Up resize grow up 5 px or 5 ppt
+        bindsym Right resize grow right 5 px or 5 ppt
+        bindsym Return mode "default"
+}
+bindsym $sup+r mode "resize"
+bindsym $mod+r mode "resize"
+
+# Power mode
+mode "power" {
+	bindsym r exec swaymsg 'mode default' && systemctl reboot
+	bindsym p exec swaymsg 'mode default' && systemctl poweroff
+	bindsym h exec systemctl hibernate
+	bindsym s exec swaymsg 'mode default' && systemctl suspend
+	# You can replace sakura with any terminal you prefer
+	bindsym Return mode "default"
+}
+bindsym $alt+Control+Delete mode "power"
+# set primary gruvbox colorscheme colors
+set $bg #282828
+set $red #cc241d
+set $green #98971a
+set $yellow #d79921
+set $blue #458588
+set $purple #b16286
+set $aqua #689d68
+set $gray #a89984
+set $darkgray #1d2021
+set $white #FFFFFF
+# Bottom panel (Anything can be used in place ofi3blocks)
+bar {
+	id blocks
+	status_command i3blocks
+	tray_bindcode 272 Activate
+	tray_bindcode 273 ContextMenu
+	tray_bindcode 274 SecondaryActivate
+	colors {
+	background $bg
+        # text color used for blocks that do not have a color specified.
+        statusline $yellow
+        # workspaces section            
+        #                    border  backgr. text
+        focused_workspace    $aqua $aqua $darkgray
+        inactive_workspace   $darkgray $darkgray $yellow
+        active_workspace     $darkgray $darkgray $yellow
+        urgent_workspace     $red $red $bg
+	}
+}
+#exec --no-startup-id waybar &
+
+# Floating window rules for wayland native
+for_window [app_id=zoom|Zoom|Xfce4-appfinder|feh|File-roller|Lxappearance|Sysmontask|xfce-polkit|audacious|pavucontrol] floating enable
+
+# Floating window rules for xwayland apps
+for_window [class=MEGAsync|XEyes] floating enable
+
+# Focusing every window
+for_window [app_id=".*"] focus
+
+# Floating chrome picture in picture and Live Caption windows
+for_window [title="Picture in Picture"] floating enable
+for_window [title="Live Caption"] floating enable
+
+# Setting floating for xeyes
+for_window [class="XEyes"] floating enable
+
+# Turn off screen with mod + O
+bindsym --locked $mod+o exec toggle_screen
+bindsym --locked $sup+o exec toggle_screen
+
+# green gruvbox
+# class                 border|backgr|text|indicator|child_border
+client.focused          $green $green $darkgray $purple $darkgray
+client.focused_inactive $darkgray $darkgray $yellow $purple $darkgray
+client.unfocused        $darkgray $darkgray $yellow $purple $darkgray
+client.urgent           $red $red $white $red $red
+
+# blue gruvbox
+# class                 border|backgr|text|indicator|child_border
+#client.focused          $blue $blue $darkgray $purple $darkgray
+#client.focused_inactive $darkgray $darkgray $yellow $purple $darkgray
+#client.unfocused        $darkgray $darkgray $yellow $purple $darkgray
+#client.urgent           $red $red $white $red $red
